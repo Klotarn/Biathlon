@@ -1,6 +1,5 @@
 import random
 
-players = []
 HIT_CHANCE = 0.8
 INTRO_TEXT = """
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9,6 +8,9 @@ INTRO_TEXT = """
           a hit or miss game
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
+
+players = []
+targets = ["*", "*", "*", "*", "*"]
 
 
 # Function to get a player name from the user
@@ -38,23 +40,23 @@ def generate_player():
     players.append(player)
 
 
-targets = ["*", "*", "*", "*", "*"]
-
-
-def reset_targets():
-    global targets
-    targets = ["*", "*", "*", "*", "*"]
-
-
-def print_targets():
-    print("\n1 2 3 4 5\n")
-    print(" ".join(targets) + "\n")
-
-
 def start_game():
+    def reset_players():
+        global players
+        players = []
+
+    def reset_targets():
+        global targets
+        targets = ["*", "*", "*", "*", "*"]
+
+    def print_targets():
+        print("\n1 2 3 4 5\n")
+        print(" ".join(targets) + "\n")
+
+    reset_players()
+    reset_targets()
     print(INTRO_TEXT)
 
-    reset_targets()
     player_count = int(input("Enter the number of players: "))
     for _ in range(player_count):
         generate_player()
