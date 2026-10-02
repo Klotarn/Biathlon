@@ -14,24 +14,29 @@ targets = ["*", "*", "*", "*", "*"]
 
 
 # Function to get a player name from the user
-def get_player_name(naming_offset):
-    name = input("Enter player name: ").strip()
+def get_player_name():
+    name = input(f"Enter player {len(players) + 1} name: ").strip()
 
     if not name:
-        name = f"{len(players) + naming_offset}"
-        print(f'No name entered. Assigning default name "{name}".')
-        naming_offset += 1
+        # Find unique default name based on amount of players and naming offset
+        naming_offset = 1
+        default_name = f"{len(players) + naming_offset}"
+        while any(player["name"] == default_name for player in players):
+            naming_offset += 1
+            default_name = f"{len(players) + naming_offset}"
+        print(f"No name provided. Using default name: {default_name}")
+        name = default_name
 
-    return name, naming_offset
+    return name
 
 
 def generate_player():
-    name, offset = get_player_name(1)
+    name = get_player_name()
 
     # If name is not unique, try again until a unique name is provided
     while any(player["name"] == name for player in players):
         print(f"Name '{name}' is already taken. Please choose a different name.")
-        name, offset = get_player_name(offset)
+        name = get_player_name()
 
     player = {
         "name": name,
